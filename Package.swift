@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
   name: "Colour",
+  platforms: [.iOS(.v16), .macOS(.v14)],
   products: [
     .library(
       name: "Colour",
@@ -17,11 +18,27 @@ let package = Package(
   ].compactMap { $0 },
   targets: [
     .target(
-      name: "Colour"
+      name: "Colour",
+      dependencies: ["NativeKit"],
+      swiftSettings: [
+        .enableUpcomingFeature("ConciseMagicFile"),
+        .enableUpcomingFeature("ExistentialAny"),
+        .enableUpcomingFeature("StrictConcurrency"),
+        .enableUpcomingFeature("ImplicitOpenExistentials"),
+        .enableUpcomingFeature("BareSlashRegexLiterals"),
+        .enableUpcomingFeature("ForwardTrailingClosures"),
+      ]
     ),
     .testTarget(
       name: "ColourTests",
       dependencies: ["Colour"]
+    ),
+    .target(
+      name: "NativeKit"
+    ),
+    .testTarget(
+      name: "NativeKitTests",
+      dependencies: ["NativeKit"]
     ),
   ]
 )
